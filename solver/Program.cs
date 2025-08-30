@@ -41,7 +41,7 @@ while (true)
             Algorithm.KnapsackBranchAndBound();
             break;
         case "7":
-            SensitivityAnalysis.Menu();
+            Algorithm.SensitivityAnalysis();
             break;
         case "8":
             return; // Exit
