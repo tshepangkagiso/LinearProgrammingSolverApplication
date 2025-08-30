@@ -1,4 +1,7 @@
-﻿namespace solver;
+﻿using System.Data;
+using System.Numerics;
+
+namespace solver;
 
 public class SensitivityAnalysis
 {
@@ -43,51 +46,187 @@ public class SensitivityAnalysis
         tables.Add(table3);
         tables.Add(table4);
         Console.Clear();
-        Console.WriteLine("Sensitivity Analysis Options:");
-        Console.WriteLine("1. Range of Non-Basic Variable");
-        Console.WriteLine("2. Change Non-Basic Variable");
-        Console.WriteLine("3. Range of Basic Variable");
-        Console.WriteLine("4. Change Basic Variable");
-        Console.WriteLine("5. Range of Constraint RHS");
-        Console.WriteLine("6. Change Constraint RHS");
-        Console.WriteLine("7. Add Activity");
-        Console.WriteLine("8. Add Constraint");
-        Console.WriteLine("9. Show Shadow Prices");
-        Console.WriteLine("10. Duality Check");
+        Console.WriteLine("Sensitivity Analysis Options:");//working
+        Console.WriteLine("1. Range of Non-Basic Variable");//working
+        Console.WriteLine("2. Change Non-Basic Variable");//TODO
+        Console.WriteLine("3. Range of Basic Variable");//working
+        Console.WriteLine("4. Change Basic Variable");//TODO
+        Console.WriteLine("5. Range of Constraint RHS");//Fix
+        Console.WriteLine("6. Change Constraint RHS");//TODO
+        Console.WriteLine("7. Add Activity");//fix
+        Console.WriteLine("8. Add Constraint");//working - finish w pivoting
+        Console.WriteLine("9. Show Shadow Prices");//fix
+        Console.WriteLine("10. Duality Check");//TODO
         Console.WriteLine("0. Back");
 
         string choice = Console.ReadLine();
-        switch (choice)
+        while (choice != "0")
         {
-            case "1":
-<<<<<<< Updated upstream
-                Console.WriteLine("TODO: Show range of non-basic variable");
-=======
+            switch (choice)
             {
-                Console.WriteLine("====================================================================");
-                Console.WriteLine("Please enter the index of the value you want to find the range of (0-?)");
-                int index = int.Parse(Console.ReadLine()); //Do some error handling later on
-                DisplayNonBasicVariableRanges(tables[tables.Count - 1], index);//Passing it the optimal table, and the ColIndex of the range to be found
->>>>>>> Stashed changes
-                break;
-            case "9":
-                Console.WriteLine("TODO: Display shadow prices");
-                break;
-            case "10":
-                Console.WriteLine("TODO: Apply duality check");
-                break;
-            case "0":
-                return;
-            default:
-                Console.WriteLine("Feature not implemented yet.");
-                break;
-        }
+                case "1"://Range of NBV
+                    {
+                        Console.WriteLine("====================================================================");
+                        Console.WriteLine("Please enter the index of the value you want to find the range of (0-?)");
+                        int index = int.Parse(Console.ReadLine()); //Do some error handling later on
+                        DisplayNonBasicVariableRanges(tables[tables.Count - 1], index);//Passing it the optimal table, and the ColIndex of the range to be found
+                        Console.WriteLine();
+                        Console.WriteLine("Please press any button to return to the main screen");
+                        Console.ReadLine();
+                        choice = "11";
+                        break;
+                    }
+                case "2"://Display change in NBV range
+                    {
+                        //This involves pivoting
+                        Console.WriteLine();
+                        Console.WriteLine("Please press any button to return to the main screen");
+                        choice = "11";
+                        break;
+                    }
+                case "3"://Range of BV
+                    {
+                        Console.WriteLine("====================================================================");
+                        Console.WriteLine("Please enter the index of the value you want to find the range of (0-?)");
+                        int index = int.Parse(Console.ReadLine());
+                        DisplayBasicVariableRange(tables.Last(), index);
+                        Console.WriteLine();
+                        Console.WriteLine("Please press any button to return to the main screen");
+                        Console.ReadKey();
+                        choice = "11";
+                        break;
+                    }
+                case "4"://Display change in range of BV
+                    {
+                        //This involves pivoting
+                        Console.WriteLine();
+                        Console.WriteLine("Please press any button to return to the main screen");
+                        choice = "11";
+                        break;
+                    }
+                case "5"://Range of RHS
+                    {
+                        Console.WriteLine("====================================================================");
+                        Console.WriteLine("Please enter the row number that you want to see the RHS range for");
+                        int row = int.Parse(Console.ReadLine());
+                        Console.WriteLine();
+                        DisplayRHSRange(tables.Last(), tables.First(), row);
+                        Console.ReadKey();
+                        Console.WriteLine();
+                        Console.WriteLine("Please press any button to return to the main screen");
+                        choice = "11";
+                        break;
+                    }
+                case "6"://Display change in range of RHS
+                    {
+                        //This involves pivoting
+                        Console.WriteLine();
+                        Console.WriteLine("Please press any button to return to the main screen");
+                        choice = "11";
+                        break;
+                    }
+                case "7"://Add activity - Come back to this one
+                    {
+                        Console.WriteLine("====================================================================");
+                        //AddNewActivity(Table optimalTable, double[] newColumn, double newObjectiveCoeff, bool isMaximization)
+                        Console.WriteLine("Please enter the objective function (z) value of the new activity");
+                        double objValue = double.Parse(Console.ReadLine());
+                        Console.WriteLine("Please enter the constraint values of the new activity. Use a space to split and add signs (+x +x -y -y +x -y)");
+                        string constraints = Console.ReadLine();
+                        string[] numerals = constraints.Split(" ");
+                        double[] column = new double[numerals.Length];
+                        int index = 0;
+                        foreach(var num in numerals)
+                        {
+                            column[index] = double.Parse(num);
+                            index++;
+                        }
+                        Console.WriteLine("====================================================================");
+                        AddNewActivity(tables.Last(), column, objValue, (goal.ToLower() == "max") ? true: false);
+                        Console.WriteLine();
+                        Console.WriteLine("Please press any button to return to the main screen");
+                        Console.ReadKey();
+                        choice = "11";
+                        break;
+                    }
+                case "8"://Add constraint - This works, but might need to add pivoting
+                    {
+                        Console.WriteLine("====================================================================");
+                        //AddNewConstraint(Table optimalTable, double[] newConstraint, double rhs)
+                        Console.WriteLine("Please enter the column values of the new constriant. Use a space to split and add signs (+x +x -y -y +x -y). Do not include RHS value");
+                        string constraints = Console.ReadLine();
+                        string[] numerals = constraints.Split(" ");
+                        double[] row = new double[numerals.Length];
+                        int index = 0;
+                        foreach (var num in numerals)
+                        {
+                            row[index] = double.Parse(num);
+                            index++;
+                        }
+                        Console.WriteLine("Please input the RHS value of the new constraint");
+                        double RHS = double.Parse(Console.ReadLine());
+                        Console.WriteLine(AddNewConstraint(tables.Last(), row, RHS));
+                        Console.ReadKey();
+                        Console.WriteLine();
+                        Console.WriteLine("Please press any button to return to the main screen");
+                        choice = "11";
+                        break;
+                    }
+                case "9"://Shadow prices
+                    {
+                        Console.WriteLine("====================================================================");
+                        //public double[] ComputeShadowPrices(Table optimalTable)
+                        int counter = 0;
+                        double[] shadowPrices = ComputeShadowPrices(tables.Last());
+                        foreach (var shadowPrice in shadowPrices)
+                        {
+                            Console.WriteLine($"Shadow price for variable at index {++counter}: R{shadowPrice:0.00}");
+                        }
 
-        Console.WriteLine("Press Enter to continue...");
-        Console.ReadLine();
+                        Console.ReadKey();
+                        Console.WriteLine();
+                        Console.WriteLine("Please press any button to return to the main screen");
+                        choice = "11";
+                        break;
+                    }
+
+                case "10":
+                    {
+                        Console.WriteLine("====================================================================");
+                        Console.WriteLine("Please enter the index of the value you want to find the range of (0-?)");
+                        int index = int.Parse(Console.ReadLine());
+                        DisplayBasicVariableRange(tables.Last(), index);
+                        Console.WriteLine();
+                        Console.WriteLine("Please press any button to return to the main screen");
+                        choice = "11";
+                        break;
+                    }
+                case "11":
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Sensitivity Analysis Options:");
+                        Console.WriteLine("1. Range of Non-Basic Variable");
+                        Console.WriteLine("2. Change Non-Basic Variable");
+                        Console.WriteLine("3. Range of Basic Variable");
+                        Console.WriteLine("4. Change Basic Variable");
+                        Console.WriteLine("5. Range of Constraint RHS");
+                        Console.WriteLine("6. Change Constraint RHS");
+                        Console.WriteLine("7. Add Activity");
+                        Console.WriteLine("8. Add Constraint");
+                        Console.WriteLine("9. Show Shadow Prices");
+                        Console.WriteLine("10. Duality Check");
+                        Console.WriteLine("0. Back");
+                        choice = Console.ReadLine();
+                        break;
+                    }
+                case "0":
+                    return;
+                default:
+                    Console.WriteLine("Please ensure you are entering a whole number from 1-10, or 0 to return to main menu");
+                    break;
+            }
+        }
     }
-<<<<<<< Updated upstream
-=======
     /////////////////////Private methods to do stuff like check if a variable is a BV, and find matrix inverse//////////////////////////
     
     private int IsBV(Table table, int ColIndex) //Returns the row where the 1 is for BV variables, otherwise returns -1;
@@ -116,28 +255,31 @@ public class SensitivityAnalysis
 
     }
 
-    private double[,] InverseMatrix(double[,] matrix)//This method is 100% chatGPT
+    private double[,] InverseMatrix(double[,] matrix)
     {
         int n = matrix.GetLength(0);
 
-        // Start with the augmented matrix [matrix | I]
+        // Start with augmented [matrix | I]
         double[,] augmented = new double[n, 2 * n];
         for (int i = 0; i < n; i++)
         {
             for (int j = 0; j < n; j++)
-                augmented[i, j] = matrix[i, j];   // copy original matrix
+                augmented[i, j] = matrix[i, j];
 
             for (int j = n; j < 2 * n; j++)
-                augmented[i, j] = (i == (j - n)) ? 1.0 : 0.0; // identity matrix
+                augmented[i, j] = (i == (j - n)) ? 1.0 : 0.0;
         }
 
-        // Perform Gauss–Jordan elimination
+        // Gauss–Jordan elimination
         for (int i = 0; i < n; i++)
         {
             // Find pivot
             double pivot = augmented[i, i];
             if (Math.Abs(pivot) < 1e-10)
-                throw new InvalidOperationException("Matrix is singular and cannot be inverted.");
+            {
+                // Singular → no inverse
+                return null;
+            }
 
             // Normalize pivot row
             for (int j = 0; j < 2 * n; j++)
@@ -153,7 +295,7 @@ public class SensitivityAnalysis
             }
         }
 
-        // Extract inverse matrix (right half of augmented matrix)
+        // Extract inverse
         double[,] inverse = new double[n, n];
         for (int i = 0; i < n; i++)
         {
@@ -164,9 +306,11 @@ public class SensitivityAnalysis
         return inverse;
     }
 
+
     private double[,] Transpose(double[,] M)//Find the transpose of an array M - main T-transpose
     {
-        int r = M.GetLength(0), c = M.GetLength(1);
+        int r = M.GetLength(0);
+        int c = M.GetLength(1);
         double[,] T = new double[c, r];
         for (int i = 0; i < r; i++)
             for (int j = 0; j < c; j++)
@@ -203,6 +347,80 @@ public class SensitivityAnalysis
         
         return coeff[variableCol];
     }
+
+    private List<int> BasicVariableIndices(Table table)
+    {
+        List<int> indices = new List<int>();
+        for (int i = 0; i < table.table.GetLength(1); i++)
+        {
+            int oneCount = 0;
+            for (int j = 0; j < table.table.GetLength(0); j++)
+            {
+                if (table.table[j, i] == 1)//Check whether the current value is a 1
+                {
+                    oneCount++;
+                }
+                else if (table.table[j, i] != 0)//If any value is not a zero or a one this is not a BV
+                {
+                    oneCount = 10;//This is very sketchy but it works!
+                    break;
+                }
+            }
+            if (oneCount == 1)//If it is a BV, there will only be a single 1
+            {
+                indices.Add(i);
+            }
+        }
+        return indices;
+    }
+
+    // Solves A x = b using Gaussian elimination (no inversion) - This is also 100% ChatGPT
+    private double[] SolveLinearSystem(double[,] A, double[] b)
+    {
+        int n = b.Length;
+        double[,] mat = new double[n, n + 1];
+
+        // Build augmented matrix [A | b]
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+                mat[i, j] = A[i, j];
+            mat[i, n] = b[i];
+        }
+
+        // Forward elimination
+        for (int i = 0; i < n; i++)
+        {
+            // Pivot
+            double pivot = mat[i, i];
+            if (Math.Abs(pivot) < 1e-10)
+                throw new InvalidOperationException("Matrix is singular or nearly singular.");
+
+            // Normalize row
+            for (int j = i; j <= n; j++)
+                mat[i, j] /= pivot;
+
+            // Eliminate below
+            for (int k = i + 1; k < n; k++)
+            {
+                double factor = mat[k, i];
+                for (int j = i; j <= n; j++)
+                    mat[k, j] -= factor * mat[i, j];
+            }
+        }
+
+        // Back substitution
+        double[] x = new double[n];
+        for (int i = n - 1; i >= 0; i--)
+        {
+            x[i] = mat[i, n];
+            for (int j = i + 1; j < n; j++)
+                x[i] -= mat[i, j] * x[j];
+        }
+
+        return x;
+    }
+
 
     /////////////////////Private methods to find the ranges, shadow prices etc, using the methods above//////////////////////////
     private void DisplayNonBasicVariableRanges(Table finalTable, int ColIndex) //Check the row 0 to find how much they can change before becomming a pivot option
@@ -298,7 +516,30 @@ public class SensitivityAnalysis
         //Create the B inverse matrix (B^-1)
         double[,] B_inv = InverseMatrix(B);
 
-        //Continue here
+        //Unit vector for the selected constraint
+        double[] e = new double[nBasic];
+        e[constraintRow] = 1;
+
+        // Compute how xB changes with delta b
+        double[] deltaX = MultiplyMatrixVector(B_inv, e); // implement or use a library
+
+        // Compute allowable increase/decrease
+        double maxIncrease = double.PositiveInfinity;
+        double maxDecrease = double.PositiveInfinity;
+
+        for (int i = 0; i < deltaX.Length; i++)
+            {
+                if (deltaX[i] > 0)
+                    maxIncrease = Math.Min(maxIncrease, RHS[i] / deltaX[i]);
+                else if (deltaX[i] < 0)
+                    maxDecrease = Math.Min(maxDecrease, -RHS[i] / deltaX[i]);
+            }
+
+        double lowerBound = RHS[constraintRow] - maxDecrease;
+        double upperBound = RHS[constraintRow] + maxIncrease;
+
+        Console.WriteLine($"The lowerbound for the RHS of the selected row is: {lowerBound}");
+        Console.WriteLine($"The upperbound for the RHS of the selected row is: {upperBound}");
     }
 
     public (double lowerBound, double upperBound) GetNonBasicVariableRange(Table optimalTable, int variableCol, bool isMaximization)
@@ -366,13 +607,13 @@ public class SensitivityAnalysis
         int numRows = optimalTable.table.GetLength(0);
 
         // Step 1: Build B from basic variables
-        int nBasic = optimalTable.BasicVariableIndices.Count;
+        int nBasic = BasicVariableIndices(optimalTable).Count;
 
 
         double[,] B = new double[nBasic, nBasic];
         for (int i = 0; i < nBasic; i++)
         {
-            int colIndex = optimalTable.BasicVariableIndices[i];
+            int colIndex = BasicVariableIndices(optimalTable)[i];
             for (int j = 0; j < nBasic; j++)
                 B[j, i] = optimalTable.table[j + 1, colIndex]; // +1 to skip objective row
         }
@@ -420,9 +661,9 @@ public class SensitivityAnalysis
         double[] xStar = new double[nVars];
         for (int j = 0; j < nVars; j++)
         {
-            if (optimalTable.BasicVariableIndices.Contains(j))
+            if (BasicVariableIndices(optimalTable).Contains(j))
             {
-                int rowIndex = optimalTable.BasicVariableIndices.IndexOf(j) + 1;
+                int rowIndex = BasicVariableIndices(optimalTable).IndexOf(j) + 1;
                 xStar[j] = optimalTable.table[rowIndex, optimalTable.table.GetLength(1) - 1]; // RHS
             }
             else
@@ -446,45 +687,38 @@ public class SensitivityAnalysis
             return "New constraint cuts off the current solution. Need to re-optimize using Dual Simplex.";
         }
     }
-
-    // Computes y^T = c_B^T * B^{-1} and returns y (length = #constraints)
+    // Computes shadow prices (dual values) without explicit matrix inversion
     public double[] ComputeShadowPrices(Table optimalTable)
     {
-        // m = number of constraints (rows excluding the objective row)
-        int m = optimalTable.table.GetLength(0) - 1;
+        int m = optimalTable.table.GetLength(0) - 1; // #constraints (excluding objective row)
 
-        // --- Build B from the optimal tableau (skip objective row at index 0) ---
-        int nBasic = optimalTable.BasicVariableIndices.Count;
+        // --- Build B from tableau ---
+        int nBasic = BasicVariableIndices(optimalTable).Count;
         if (nBasic != m)
             throw new InvalidOperationException("Basis size must equal number of constraints.");
 
         double[,] B = new double[m, m];
         for (int i = 0; i < nBasic; i++)
         {
-            int colIndex = optimalTable.BasicVariableIndices[i];
+            int colIndex = BasicVariableIndices(optimalTable)[i];
             for (int r = 0; r < m; r++)
             {
-                // Row r in constraints = tableau row (r+1) because row 0 is the objective
-                B[r, i] = optimalTable.table[r + 1, colIndex];
+                B[r, i] = optimalTable.table[r + 1, colIndex]; // skip objective row
             }
         }
 
-        // --- c_B: the objective coeffs of the basic variables ---
+        // --- c_B (objective coeffs of basic variables) ---
         double[] cB = new double[m];
         for (int i = 0; i < m; i++)
         {
-            int varCol = optimalTable.BasicVariableIndices[i];
+            int varCol = BasicVariableIndices(optimalTable)[i];
             cB[i] = OriginalObjectiveCoefficients(varCol);
         }
 
-        // --- y^T = c_B^T * B^{-1}  →  y = (B^{-T}) * c_B ---
-        // We'll compute y = Transpose(B_inv) * cB to reuse the MultiplyMatrixVector helper.
-        double[,] B_inv = InverseMatrix(B);
-        double[,] B_inv_T = Transpose(B_inv);
-        double[] y = MultiplyMatrixVector(B_inv_T, cB);
+        // --- Solve B^T y = cB instead of inverting B ---
+        double[] y = SolveLinearSystem(Transpose(B), cB);
 
-        return y; // shadow price for each constraint, in tableau row order (1..m)
+        return y;
     }
 
->>>>>>> Stashed changes
-}
+};

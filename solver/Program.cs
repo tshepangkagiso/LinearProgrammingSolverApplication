@@ -5,7 +5,7 @@ Console.Title = "Linear & Integer Programming Solver";
 
 while (true)
 {
-    Console.Clear();
+    //Console.Clear();
     Console.WriteLine("==================================");
     Console.WriteLine("   Linear & Integer Programming");
     Console.WriteLine("==================================");
@@ -41,7 +41,8 @@ while (true)
             Algorithm.KnapsackBranchAndBound();
             break;
         case "7":
-            Algorithm.SensitivityAnalysis();
+            SensitivityAnalysis sensitivityAnalysis = new SensitivityAnalysis();
+            sensitivityAnalysis.Menu();
             break;
         case "8":
             return; // Exit

@@ -36,11 +36,4 @@ public static class Algorithm
         // TODO
         OutputModel.SaveOutput("Knapsack Branch & Bound results here...");
     }
-
-    public static void SensitivityAnalysis()
-    {
-        Console.WriteLine("Running the sensitivity analysis...");
-        //TODO
-        OutputModel.SaveOutput("Sensitivity analysis output here");
-    }
 }

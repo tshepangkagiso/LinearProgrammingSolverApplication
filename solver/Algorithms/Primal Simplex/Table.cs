@@ -3,7 +3,6 @@
 public class Table
 {
     public double[,] table;
-    public List<int> BasicVariableIndices;
 
     public Table() { }
 
@@ -37,28 +36,5 @@ public class Table
         }
 
         return columnValues;
-    }
-
-    public void setBasicVariableIndices()
-    {
-        int oneCount = 0;
-        for(int i = 0; i < table.GetLength(1);  i++)
-        {
-            for (int j = 0; j < table.GetLength(0); j++)
-            {
-                if (table[j, i] == 1)//Check whether the current value is a 1
-                {
-                    oneCount++;
-                }
-                else if (table[j, i] != 0)//If any value is not a zero or a one this is not a BV
-                {
-                   break;
-                }
-            }
-            if (oneCount == 1)//If it is a BV, there will only be a single 1
-            {
-                BasicVariableIndices.Add(i);
-            }
-        }
     }
 }
