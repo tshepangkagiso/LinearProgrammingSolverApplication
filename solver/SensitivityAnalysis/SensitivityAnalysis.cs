@@ -59,14 +59,15 @@ public static class SensitivityAnalysis
         tables.Add(table4);
 
         string choice = Console.ReadLine();
+        /*
         switch (choice)
         {
-            case "1":
+   /        case "1":
             {
                 Console.WriteLine("====================================================================");
                 Console.WriteLine("Please enter the index of the value you want to find the range of (0-?)");
                 int index = int.Parse(Console.ReadLine()); //Do some error handling later on
-                DisplayNonBasicVariableRanges(tables[tables.Count] - 1, index);//Passing it the optimal table, and the ColIndex of the range to be found
+                //DisplayNonBasicVariableRanges(tables[tables.Count] - 1, index);//Passing it the optimal table, and the ColIndex of the range to be found
                 break;
             }
             case "2":
@@ -201,6 +202,6 @@ public static class SensitivityAnalysis
         for (int i = 0; i < nBasic; i++)
         { 
             //Continue here
-        }
+        }*/
     }
 }
