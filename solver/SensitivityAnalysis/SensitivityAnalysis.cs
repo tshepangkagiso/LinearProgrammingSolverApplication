@@ -62,23 +62,23 @@ public static class SensitivityAnalysis
         switch (choice)
         {
             case "1":
-            {
-                Console.WriteLine("====================================================================");
-                Console.WriteLine("Please enter the index of the value you want to find the range of (0-?)");
-                int index = int.Parse(Console.ReadLine()); //Do some error handling later on
-                DisplayNonBasicVariableRanges(tables[tables.Count] - 1, index);//Passing it the optimal table, and the ColIndex of the range to be found
-                break;
-            }
+                {
+                    Console.WriteLine("====================================================================");
+                    Console.WriteLine("Please enter the index of the value you want to find the range of (0-?)");
+                    int index = int.Parse(Console.ReadLine()); //Do some error handling later on
+                    DisplayNonBasicVariableRanges(tables[tables.Count] - 1, index);//Passing it the optimal table, and the ColIndex of the range to be found
+                    break;
+                }
             case "2":
-            {
-                //ToDo: Requires posibility of more pivots
-                break;
-            }
+                {
+                    //ToDo: Requires posibility of more pivots
+                    break;
+                }
             case "3":
-            {
-                
-                break;
-            }
+                {
+
+                    break;
+                }
 
             case "9":
                 Console.WriteLine("TODO: Display shadow prices");
@@ -137,14 +137,14 @@ public static class SensitivityAnalysis
             {
                 Console.WriteLine($"Range for index {ColIndex}: increase up to {Math.Abs(reducedCost)}, decrease = ∞");//Find the absolute value of which you can increase the number with before it becomes a pivot option.
             }
-            else 
+            else
             {
                 Console.WriteLine("This value has no range, but pivoting on it might give you another feasible solution!");
-            } 
+            }
         }
         else
         {
-            Console.WriteLine('Cannot display NBV value range since the chosen index: '+ColIndex+' is not an NBV');
+            Console.WriteLine('Cannot display NBV value range since the chosen index: ' + ColIndex + ' is not an NBV');
         }
     }
 
@@ -177,14 +177,14 @@ public static class SensitivityAnalysis
         }
     }
 
-    private void DisplayRHSRange(Table optimalTable, int constraintRow) 
+    private void DisplayRHSRange(Table optimalTable, int constraintRow)
     {
         //Start by finding the number of basic variables
         int nBasic = 0;
         for (int i = 0; i < optimalTable.table.GetLength(1); i++)
         {
             if (IsBV(optimalTable, i) != -1)//If it is returned as a basic variable, increment the no of basic variables we have
-            { 
+            {
                 nBasic++;
             }
         }
@@ -199,7 +199,7 @@ public static class SensitivityAnalysis
         //Constructing the B matrix
         double[,] B = new double[nBasic, nBasic];
         for (int i = 0; i < nBasic; i++)
-        { 
+        {
             //Continue here
         }
     }

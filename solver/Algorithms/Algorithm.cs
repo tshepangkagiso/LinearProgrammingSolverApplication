@@ -32,9 +32,7 @@ public static class Algorithm
 
     public static void KnapsackBranchAndBound()
     {
-        Console.WriteLine("Running Branch & Bound Knapsack...");
-        // TODO
-        OutputModel.SaveOutput("Knapsack Branch & Bound results here...");
+        solver.Algorithms.Knapsack.Algorithms.KnapsackBranchAndBound();
     }
 
 
