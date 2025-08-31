@@ -4,10 +4,10 @@ namespace solver.Algorithms.Primal_Simplex;
 
 public class PrimalSimplexSolver
 {
-    protected double[,] tableau;
+    protected double[,] tableau; // Table being processed at the time.
     protected int rows;
     protected int cols;
-    protected int[] basis;
+    protected int[] basis; // Values of all constraints, rhs and z rows.
 
     public PrimalSimplexSolver(double[,] initialTableau)
     {

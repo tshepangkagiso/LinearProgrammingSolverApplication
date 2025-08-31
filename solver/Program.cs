@@ -37,7 +37,8 @@ while (true)
             Algorithm.KnapsackBranchAndBound();
             break;
         case "6":
-            SensitivityAnalysis.Menu();
+            //SensitivityAnalysis sensitivityAnalysis = new SensitivityAnalysis();
+            //SensitivityAnalysis.Menu();
             break;
         case "7":
             SensitivityAnalysis sensitivityAnalysis = new SensitivityAnalysis();
