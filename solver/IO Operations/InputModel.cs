@@ -7,13 +7,10 @@ public static class InputModel
 {
     public static void LoadModel()
     {
-        Console.Write("Enter input file path: ");
-        string path = Console.ReadLine();
+        Console.WriteLine("Please wait....");
 
-        if (File.Exists(path))
+        if (ModelParser.Parse())
         {
-            string[] lines = File.ReadAllLines(path);
-            ModelParser.Parse(lines);
             Console.WriteLine("Model loaded successfully!");
         }
         else

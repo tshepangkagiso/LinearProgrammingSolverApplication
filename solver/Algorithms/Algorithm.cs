@@ -1,11 +1,19 @@
-﻿namespace solver;
+﻿using solver.Algorithms.Cutting_Plane;
+using solver.Algorithms.Primal_Simplex;
+using solver.IO_Operations;
+
+namespace solver;
 
 public static class Algorithm
 {
     public static void PrimalSimplex()
     {
         Console.WriteLine("Running Primal Simplex...");
-        // TODO: Implement simplex algorithm
+
+        var (tableau, binaryVars) = IO.ParseFile();
+        PrimalSimplexSolver.DisplayPrimalSimplex();
+        PrimalSimplexSolver.PrimalSimplexAlgo(tableau);
+
         OutputModel.SaveOutput("Primal Simplex results here...");
     }
 
@@ -25,8 +33,10 @@ public static class Algorithm
 
     public static void CuttingPlane()
     {
-        Console.WriteLine("Running Cutting Plane...");
-        // TODO
+        var (tableau, binaryVars) = IO.ParseFile();
+        CuttingPlaneSolver solver = new CuttingPlaneSolver(tableau, binaryVars, maxIterations: 10, showDetailedSteps: true);
+        solver.Solve();
+
         OutputModel.SaveOutput("Cutting Plane results here...");
     }
 
