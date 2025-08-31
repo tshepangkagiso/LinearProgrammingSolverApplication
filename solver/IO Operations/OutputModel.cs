@@ -1,12 +1,16 @@
-﻿namespace solver;
+﻿using System;
+using System.IO;
 
-public static class OutputModel
+namespace solver
 {
-    public static void SaveOutput(string content)
+    public static class OutputModel
     {
-        File.WriteAllText("output.txt", content);
-        Console.WriteLine("Results saved to output.txt");
-        Console.WriteLine("Press Enter to continue...");
-        Console.ReadLine();
+        public static void SaveOutput(string content)
+        {
+            File.WriteAllText("output.txt", content);
+            Console.WriteLine("Results saved to output.txt");
+            Console.WriteLine("Press Enter to continue...");
+            Console.ReadLine();
+        }
     }
 }

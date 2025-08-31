@@ -437,10 +437,10 @@ public class SensitivityAnalysis
             {
                 Console.WriteLine($"Range for index {ColIndex}: increase up to {Math.Abs(reducedCost)}, decrease = ∞");//Find the absolute value of which you can increase the number with before it becomes a pivot option.
             }
-            else 
+            else
             {
                 Console.WriteLine("This value has no range, but pivoting on it might give you another feasible solution!");
-            } 
+            }
         }
         else
         {
@@ -484,7 +484,7 @@ public class SensitivityAnalysis
         for (int i = 0; i < optimalTable.table.GetLength(1); i++)
         {
             if (IsBV(optimalTable, i) != -1)//If it is returned as a basic variable, increment the no of basic variables we have
-            { 
+            {
                 nBasic++;
             }
         }
