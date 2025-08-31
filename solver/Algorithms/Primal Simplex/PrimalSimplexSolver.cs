@@ -1,4 +1,5 @@
 ﻿using solver.IO_Operations;
+using System.Text;
 
 namespace solver.Algorithms.Primal_Simplex;
 
@@ -334,5 +335,40 @@ public class PrimalSimplexSolver
         IO.PrintRawTableau(tableau);
 
         PrimalSimplexSolver.PrimalSimplex(tableau);
+    }
+
+    //Generates solution final solution
+    public static void PrimalSimplexResult()
+    {
+        var (tableau, binaryVars) = IO.ParseFile();
+        DisplayPrimalSimplex();
+        PrimalSimplexAlgo(tableau);
+    }
+
+    // Method that returns a string of the result
+    public static string GetResultAsString()
+    {
+        StringBuilder result = new StringBuilder();
+        var originalOut = Console.Out;
+        StringWriter stringWriter = new StringWriter();
+
+        try
+        {
+            // Redirect console output to capture everything
+            Console.SetOut(stringWriter);
+
+            // Call the existing Solve method which prints to console
+            PrimalSimplexResult(); //actual method or methods called to print result to console here.
+
+            // Get all the captured output
+            result.Append(stringWriter.ToString());
+        }
+        finally
+        {
+            // Restore console output
+            Console.SetOut(originalOut);
+        }
+
+        return result.ToString();
     }
 }

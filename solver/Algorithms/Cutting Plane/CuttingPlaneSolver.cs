@@ -1,6 +1,7 @@
 ﻿using Google.OrTools.LinearSolver;
 using solver.Algorithms.Primal_Simplex;
 using solver.IO_Operations;
+using System.Text;
 
 namespace solver.Algorithms.Cutting_Plane;
 
@@ -130,6 +131,33 @@ public class CuttingPlaneSolver
         Console.WriteLine(new string('=', 60));
 
         AlternativeSolution.SolveDynamicBinaryProblem();
+    }
+
+    // Method that returns a string of the result
+    public string GetResultAsString()
+    {
+        StringBuilder result = new StringBuilder();
+        var originalOut = Console.Out;
+        StringWriter stringWriter = new StringWriter();
+
+        try
+        {
+            // Redirect console output to capture everything
+            Console.SetOut(stringWriter);
+
+            // Call the existing Solve method which prints to console
+            Solve();
+
+            // Get all the captured output
+            result.Append(stringWriter.ToString());
+        }
+        finally
+        {
+            // Restore console output
+            Console.SetOut(originalOut);
+        }
+
+        return result.ToString();
     }
 
     private bool SolveDualSilently(DualSimplexSolver solver, out double[,] tableau, out int[] basis, out double optimalValue)

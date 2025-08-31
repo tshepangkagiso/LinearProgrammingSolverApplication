@@ -8,8 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Algorithms\Knapsack\**" />
+    <EmbeddedResource Remove="Algorithms\Knapsack\**" />
+    <None Remove="Algorithms\Knapsack\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Algorithms\Branch And Bound Simplex\" />
-    <Folder Include="Algorithms\Knapsack\" />
     <Folder Include="SensitivityAnalysis\" />
 	  <Folder Include="IO Operations\" /> 
   </ItemGroup>
