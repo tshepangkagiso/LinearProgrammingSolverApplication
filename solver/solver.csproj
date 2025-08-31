@@ -8,9 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Algorithms\" />
-    <Folder Include="IO Operations\" />
+    <Folder Include="Algorithms\Branch And Bound Simplex\" />
+    <Folder Include="Algorithms\Knapsack\" />
     <Folder Include="SensitivityAnalysis\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.OrTools" Version="9.14.6206" />
   </ItemGroup>
 
 </Project>

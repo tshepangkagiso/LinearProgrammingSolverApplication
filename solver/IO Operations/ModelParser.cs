@@ -2,8 +2,9 @@
 
 public static class ModelParser
 {
-    public static void Parse(string[] lines)
+    public static Boolean Parse()
     {
-        // TODO: Parse LP/IP input format from .txt
+        IO.ParseFile();
+        return true;
     }
 }

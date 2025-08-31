@@ -11,12 +11,11 @@ while (true)
     Console.WriteLine("==================================");
     Console.WriteLine("1. Load Model from Input File");
     Console.WriteLine("2. Solve with Primal Simplex");
-    Console.WriteLine("3. Solve with Revised Simplex");
-    Console.WriteLine("4. Solve with Branch & Bound (Simplex)");
-    Console.WriteLine("5. Solve with Cutting Plane Algorithm");
-    Console.WriteLine("6. Solve with Branch & Bound Knapsack");
-    Console.WriteLine("7. Sensitivity Analysis");
-    Console.WriteLine("8. Exit");
+    Console.WriteLine("3. Solve with Branch & Bound (Simplex)");
+    Console.WriteLine("4. Solve with Cutting Plane Algorithm");
+    Console.WriteLine("5. Solve with Branch & Bound Knapsack");
+    Console.WriteLine("6. Sensitivity Analysis");
+    Console.WriteLine("7. Exit");
     Console.Write("Select an option: ");
     string choice = Console.ReadLine();
 
@@ -29,16 +28,16 @@ while (true)
             Algorithm.PrimalSimplex();
             break;
         case "3":
-            Algorithm.RevisedSimplex();
-            break;
-        case "4":
             Algorithm.BranchAndBoundSimplex();
             break;
-        case "5":
+        case "4":
             Algorithm.CuttingPlane();
             break;
-        case "6":
+        case "5":
             Algorithm.KnapsackBranchAndBound();
+            break;
+        case "6":
+            SensitivityAnalysis.Menu();
             break;
         case "7":
             Algorithm.SensitivityAnalysis();
